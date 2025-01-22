@@ -17,28 +17,7 @@
 #include "gauge_configuration.hpp"
 #include "parameters.hpp"
 
-int main(int argc, char *argv[])
-{
-/*     if (argc != 3 || std::string(argv[1]) != "-f")
-    {
-        printUsage(argv[0]);
-
-        return 1;
-    }
-
-    std::cout << randUnif(0, 1, 1234567) << std::endl;
-
-    const size_t L{3};
-    const size_t T{3};
-    const size_t ST_DIM{3};
-
-    std::vector<U1> gauge_configuration = coldStart(ST_DIM, L, T);
-
-    std::cout << gauge_configuration.size() << std::endl;
-    for (size_t i = 0; i < gauge_configuration.size(); ++i)
-    {
-        gauge_configuration[i].display();
-    } */
+int main(int argc, char *argv[]){
 
     allParameters params("input");
     std::cout << "d: " << params.getInt("T") << std::endl;

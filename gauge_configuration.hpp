@@ -1,6 +1,7 @@
 #pragma once
 
 #include <iostream>
+#include <vector>
 #include <fstream>
 #include <unordered_map>
 #include <stdexcept>
@@ -28,6 +29,21 @@
     return gauge_configuration;
 } */
 
+class gaugeConfiguration
+{
+private:
+    const physicalParameters &physical_parameters;
+    const size_t total_volume = physical_parameters.totalVolume();
+    const size_t ST_DIM = physical_parameters.getST_DIM();
+
+    std::vector<std::vector<U1>> gauge_configuration;
+
+public:
+    gaugeConfiguration(const size_t total_volume, const size_t ST_DIM) : total_volume(total_volume), ST_DIM(ST_DIM)
+    {
+        gauge_configuration.resize(total_volume, std::vector<U1> mu(ST_DIM, U1(0.0)));
+    }
+};
 
 std::vector<U1> hotStart(const physicalParameters &physical_parameters)
 {

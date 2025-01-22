@@ -101,8 +101,8 @@ public:
 
     size_t spatialVolume() const
     {
-        size_t ST_DIM = getST_DIM();
-        size_t L = getL();
+        const size_t ST_DIM = getST_DIM();
+        const size_t L = getL();
         return static_cast<size_t>(std::pow(L, ST_DIM - 1));
     }
 
