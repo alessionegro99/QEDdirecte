@@ -1,4 +1,6 @@
-ST_DIM 3
-T 3
-L 3
-seed 1234567
+ST_DIM 2
+T 2
+L 2
+seed 12345
+start hot
+updater hmc

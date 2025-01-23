@@ -1,7 +1,6 @@
-#pragma once
-
 #include <iostream>
-#include <random>
+
+#include "../include/random.hpp"
 
 std::mt19937 initializeRNG(int seed)
 {
@@ -15,4 +14,3 @@ std::mt19937 initializeRNG(int seed)
         return std::mt19937(rd()); // Random seed
     }
 }
-

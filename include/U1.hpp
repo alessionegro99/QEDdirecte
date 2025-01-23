@@ -1,5 +1,9 @@
 #pragma once
 
+#include <complex>
+
+// struct for U1 group elements
+// exp{i\theta} with -pi<\theta<pi
 struct U1
 {
     std::complex<double> value;
@@ -18,6 +22,6 @@ struct U1
 
     void display() const
     {
-        std::cout << "U(1) element: " << value << std::endl;
+        std::cout << value << std::endl;
     }
 };
