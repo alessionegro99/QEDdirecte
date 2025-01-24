@@ -8,7 +8,7 @@ struct U1
 {
     std::complex<double> value;
 
-    U1() : value(1.) {}
+    U1() : value(1.) {} // needed for dynamical allocation of memory for 2D arrays
 
     U1(double theta) : value(std::exp(std::complex<double>(0, theta))) {}
 

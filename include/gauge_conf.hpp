@@ -22,25 +22,17 @@ public:
         initGaugeConf();
     }
 
-    // in gauge_conf_init.cpp
+    // in gauge_conf_def.cpp
     //  initialize gauge configuration
     void initGaugeConf();
     void freeGaugeConf();
 
-    /*     // in gauge_conf_init.cpp
-        // initializer
-        void hotStart();
+/*     // in gauge_conf_tools.cpp
+    // displayer
+    void display() const;
 
-        // in gauge_conf_tools.cpp
-        // displayer
-        void display() const;
+    // in gauge_conf_update.cpp
+    // updater
+    void HMC(size_t tot_vol, size_t n_HMC); */
 
-        // in gauge_conf_update.cpp
-        // updater
-        void HMC(size_t tot_vol, size_t n_HMC);
-
-        size_t index(int row, int col) const
-        {
-            return row * geo.ST_DIM + col;
-        } */
 };

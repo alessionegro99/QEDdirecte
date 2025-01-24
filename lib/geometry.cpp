@@ -2,7 +2,7 @@
 
 #include "../include/parameters.hpp"
 
-void geometry::lexToCart(std::vector<int> cart_coord, long lex)
+void geometry::lexToCart(std::vector<int> &cart_coord, long lex)
 {
     long aux[ST_DIM];
 
@@ -16,7 +16,7 @@ void geometry::lexToCart(std::vector<int> cart_coord, long lex)
     // aux[2]=size[0]*size[1]
     // ...
     // aux[STDIM-1]=size[0]*size[1]*...*size[STDIM-2]
-    for (int i = (ST_DIM - 1); i >= 0; --i) // CAREFUL: DO NOT use size_t i
+    for (int i = (ST_DIM - 1); i >= 0; i--) // CAREFUL: DO NOT use size_t i
     {
         cart_coord[i] = (int)(lex / aux[i]);
         lex -= aux[i] * cart_coord[i];
@@ -133,6 +133,7 @@ void geometry::initGeometry()
             value = cart_coord[j];
 
             valuep = value + 1;
+            // implementing PBC in positive direction
             if (valuep >= d_size[j])
             {
                 valuep -= d_size[j];
@@ -142,6 +143,7 @@ void geometry::initGeometry()
             d_nnp[r][j] = rp;
 
             valuem = value - 1;
+            // implementing PBC in negative direction
             if (valuem < 0)
             {
                 valuem += d_size[j];

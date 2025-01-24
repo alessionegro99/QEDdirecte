@@ -114,7 +114,7 @@ public:
         return d_nnm[r][i];
     }
 
-    void lexToCart(std::vector<int> cart_coord, long lex);
+    void lexToCart(std::vector<int> &cart_coord, long lex);
     int cartToLex(std::vector<int> cart_coord);
 
     void printAll();

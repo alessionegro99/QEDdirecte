@@ -31,18 +31,19 @@ int main(int argc, char *argv[])
 
     configuration test(geo, sim);
 
-/*     for (size_t r = 0; r < geo.d_vol; ++r)
+    for (size_t r = 0; r < geo.d_vol; ++r)
     {
         for (size_t j = 0; j < geo.ST_DIM; ++j)
         {
-            test.lattice[r][j].display();
+            // test.lattice[r][j].display();
+            std::cout << geo.nnp(r, j) << std::endl;;
         }
-    } */
+        std::cout << "\n";
+    }
 
     test.freeGaugeConf();
 
     geo.freeGeometry();
-
 
     return 0;
 }
