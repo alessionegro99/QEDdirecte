@@ -1,21 +1,21 @@
 #pragma once
 
 #include <iostream>
+#include <vector>
 #include <fstream>
 #include <string>
 #include <cmath>
 #include <unordered_map>
 #include <stdexcept>
 
-
 // generic container for all of the parameters read from the input file
-class allParams
+class parameters
 {
 private:
     std::unordered_map<std::string, std::string> p;
 
 public:
-    explicit allParams(const std::string &filename)
+    explicit parameters(const std::string &filename)
     {
         loadFromFile(filename);
     }
@@ -67,35 +67,57 @@ public:
     }
 };
 
-// physical parameters
-class physParams
-{
-public:
-    const size_t ST_DIM;
-    const size_t T;
-    const size_t L;
-    const size_t spatial_vol;
-    const size_t tot_vol;
-
-    explicit physParams(const allParams &p) : ST_DIM(p.getInt("ST_DIM")),
-                                              T(p.getInt("T")),
-                                              L(p.getInt("L")),
-                                              spatial_vol(static_cast<size_t>(std::pow(L, ST_DIM - 1))),
-                                              tot_vol(spatial_vol * T)
-
-    {
-    }
-};
-
 // simulation parameters
-class simParams
+class simulation
 {
 public:
     const size_t seed;
     const std::string start;
 
-    simParams(const allParams &p) : seed(p.getInt("seed")),
-                                    start(p.getString("start"))
+    simulation(const parameters &p) : seed(p.getInt("seed")),
+                                      start(p.getString("start"))
     {
     }
+};
+
+// geometry of the lattice
+class geometry
+{
+public:
+    const size_t ST_DIM; // total Euclidean spacetime dimension
+    const size_t T;      // temporal extent of the lattice, coordinate: $x_0$
+    const size_t L;      // spatial extent of the lattice, coordinates: $x_i \in \{1,2,...,ST_DIM-1}\$
+
+    std::vector<size_t> d_size; // size of the lattice
+
+    size_t d_vol;           // total volume
+    double d_inv_vol;       // 1/(total volume)
+    size_t d_space_vol;     // spatial component of the volume
+    double d_inv_space_vol; // 1/(spatial volume)
+
+    size_t **d_nnp; // d_nnp[r][i] = next neighbour (on the local lattice) in dir +i of site r
+    size_t **d_nnm; // d_nnm[r][i] = next neighbour (on the local lattice) in dir -i of site r
+
+    explicit geometry(const parameters &p) : ST_DIM(p.getInt("ST_DIM")),
+                                             T(p.getInt("T")),
+                                             L(p.getInt("L"))
+    {
+        initGeometry();
+    }
+
+    size_t nnp(long r, int i)
+    {
+        return d_nnp[r][i];
+    }
+    size_t nnm(long r, int i)
+    {
+        return d_nnm[r][i];
+    }
+
+    void lexToCart(std::vector<int> cart_coord, long lex);
+    int cartToLex(std::vector<int> cart_coord);
+
+    void printAll();
+    void initGeometry();
+    void freeGeometry();
 };

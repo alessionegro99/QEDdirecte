@@ -1,6 +1,6 @@
 ST_DIM 2
 T 2
 L 2
-seed 12345
+seed 1234567
 start hot
 updater hmc

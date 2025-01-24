@@ -2,7 +2,7 @@
 
 #include "../include/gauge_conf.hpp"
 
-void gaugeConf::display() const
+/* void configuration::display() const
 {
     for (int i = 0; i < rows; ++i)
     {
@@ -12,4 +12,4 @@ void gaugeConf::display() const
         }
     }
     std::cout << std::endl;
-} 
+}  */

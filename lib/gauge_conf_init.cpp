@@ -3,16 +3,69 @@
 #include "../include/gauge_conf.hpp"
 #include "../include/random.hpp"
 
-void gaugeConf::hotStart()
+void configuration::initGaugeConf()
 {
-    std::mt19937 rng = initializeRNG(seed);
-    std::uniform_real_distribution<double> dist(0.0, 1.0);
+    long r;
+    int j;
 
-    for (int i = 0; i < rows; ++i)
+    lattice = new U1 *[geo.d_vol];
+    if (!lattice)
     {
-        for (int j = 0; j < cols; ++j)
+        std::cerr << "Failed to allocate memory for lattice rows.\n";
+    }
+    for (r = 0; r < geo.d_vol; r++)
+    {
+        lattice[r] = new U1[geo.ST_DIM];
+        if (!lattice[r])
         {
-            lattice[index(i, j)] = U1(2 * M_PI * dist(rng));
+            std::cerr << "Failed to allocate memory for lattice columns at row " << r << ".\n";
+
+            for (size_t j = 0; j < r; j++)
+            {
+                delete[] lattice[j];
+            }
+            delete[] lattice;
         }
     }
+
+    if (sim.start == "cold")
+    {
+        for (r = 0; r < geo.d_vol; ++r)
+        {
+            for (j = 0; j < geo.ST_DIM; ++j)
+            {
+                lattice[r][j] = U1(0.0);
+            }
+        }
+    }
+    else if (sim.start == "hot")
+    {
+        std::mt19937 rng = initializeRNG(sim.seed);
+        std::uniform_real_distribution<double> dist(0.0, 1.0);
+
+        for (r = 0; r < geo.d_vol; r++)
+        {
+            for (j = 0; j < geo.ST_DIM; j++)
+            {
+                lattice[r][j] = U1(2 * M_PI * dist(rng));
+            }
+        }
+    }
+    else if (sim.start == "read")
+    {
+    }
+    else
+    {
+    }
+}
+
+void configuration::freeGaugeConf()
+{
+    long r;
+
+    for (r = 0; r < geo.d_vol; ++r)
+    {
+        delete[] lattice[r];
+    }
+    delete[] lattice;
 }

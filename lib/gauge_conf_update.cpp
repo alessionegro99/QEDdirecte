@@ -3,7 +3,7 @@
 #include "../include/gauge_conf.hpp"
 #include "../include/random.hpp"
 
-void gaugeConf::HMC(size_t tot_vol, size_t n_HMC)
+/* void configuration::HMC(size_t tot_vol, size_t n_HMC)
 {
     std::cout << std::endl;
     std::mt19937 rng = initializeRNG(seed);
@@ -23,4 +23,4 @@ void gaugeConf::HMC(size_t tot_vol, size_t n_HMC)
     double dt = 1/double(n_HMC);
 
     //first half step
-}
+} */

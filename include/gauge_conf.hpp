@@ -3,52 +3,44 @@
 #include <iostream>
 #include <string>
 #include <vector>
- 
+
 #include "U1.hpp"
 #include "parameters.hpp"
- 
-class gaugeConf
+
+class configuration
 {
 private:
-    const size_t rows;
-    const size_t cols;
-
-    const size_t seed;
-    const std::string start;
-
-    std::vector<U1> lattice;
-
-    size_t index(int row, int col) const
-    {
-        return row * cols + col;
-    }
+    const geometry &geo;
+    const simulation &sim;
 
 public:
-    gaugeConf(const physParams &pp, const simParams &sp) : rows(pp.tot_vol),
-                                                           cols(pp.ST_DIM),
-                                                           lattice(pp.tot_vol * pp.ST_DIM, U1(0.0)),
-                                                           seed(sp.seed),
-                                                           start(sp.start)
-    {
-        if (start == "hot")
-        {
-            hotStart();
-        }
+    U1 **lattice; // [total volume][ST_DIM]
 
-        else if (start == "read")
-        {
-        }
+    configuration(const geometry &geom, const simulation &simul) : geo(geom),
+                                                                   sim(simul)
+    {
+        initGaugeConf();
     }
 
-    // initializer
-    void hotStart();
+    // in gauge_conf_init.cpp
+    //  initialize gauge configuration
+    void initGaugeConf();
+    void freeGaugeConf();
 
-    // displayer
-    void display() const;
+    /*     // in gauge_conf_init.cpp
+        // initializer
+        void hotStart();
 
-    // updater
-    void HMC(size_t tot_vol, size_t n_HMC);
+        // in gauge_conf_tools.cpp
+        // displayer
+        void display() const;
+
+        // in gauge_conf_update.cpp
+        // updater
+        void HMC(size_t tot_vol, size_t n_HMC);
+
+        size_t index(int row, int col) const
+        {
+            return row * geo.ST_DIM + col;
+        } */
 };
-
-
-

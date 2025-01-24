@@ -22,13 +22,27 @@ int main(int argc, char *argv[])
 
     /**************************************/
 
-    allParams p(filename);
+    parameters p(filename);
 
-    physParams pp(p);
-    simParams sp(p);
+    geometry geo(p);
+    simulation sim(p);
 
-    gaugeConf test(pp, sp);
-    test.display();
+    geo.printAll();
+
+    configuration test(geo, sim);
+
+/*     for (size_t r = 0; r < geo.d_vol; ++r)
+    {
+        for (size_t j = 0; j < geo.ST_DIM; ++j)
+        {
+            test.lattice[r][j].display();
+        }
+    } */
+
+    test.freeGaugeConf();
+
+    geo.freeGeometry();
+
 
     return 0;
 }

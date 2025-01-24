@@ -8,6 +8,8 @@ struct U1
 {
     std::complex<double> value;
 
+    U1() : value(1.) {}
+
     U1(double theta) : value(std::exp(std::complex<double>(0, theta))) {}
 
     U1 operator*(const U1 &other) const
@@ -22,6 +24,6 @@ struct U1
 
     void display() const
     {
-        std::cout << value << std::endl;
+        std::cout << std::arg(value) << std::endl;
     }
 };
