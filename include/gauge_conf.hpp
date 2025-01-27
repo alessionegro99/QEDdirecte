@@ -23,16 +23,19 @@ public:
     }
 
     // in gauge_conf_def.cpp
-    //  initialize gauge configuration
+    // initialize gauge configuration
     void initGaugeConf();
     void freeGaugeConf();
 
-/*     // in gauge_conf_tools.cpp
-    // displayer
-    void display() const;
+    // in gauge_conf_meas.cpp
+    U1 staple(long r, int i);
 
-    // in gauge_conf_update.cpp
-    // updater
-    void HMC(size_t tot_vol, size_t n_HMC); */
+    /*     // in gauge_conf_tools.cpp
+        // displayer
+        void display() const;
 
+        // in gauge_conf_update.cpp
+        // updater
+        void HMC(size_t tot_vol, size_t n_HMC) */
+    ;
 };

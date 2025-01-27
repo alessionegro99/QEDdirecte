@@ -105,11 +105,11 @@ public:
         initGeometry();
     }
 
-    size_t nnp(long r, int i)
+    inline long nnp(long r, int i) const
     {
         return d_nnp[r][i];
     }
-    size_t nnm(long r, int i)
+    inline long nnm(long r, int i) const
     {
         return d_nnm[r][i];
     }

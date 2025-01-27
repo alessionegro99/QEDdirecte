@@ -31,17 +31,23 @@ int main(int argc, char *argv[])
 
     configuration test(geo, sim);
 
-    for (size_t r = 0; r < geo.d_vol; ++r)
-    {
-        for (size_t j = 0; j < geo.ST_DIM; ++j)
+    /*     for (size_t r = 0; r < geo.d_vol; ++r)
         {
-            // test.lattice[r][j].display();
-            std::cout << geo.nnp(r, j) << std::endl;;
-        }
-        std::cout << "\n";
-    }
+            for (size_t j = 0; j < geo.ST_DIM; ++j)
+            {
+                // test.lattice[r][j].display();
+                std::cout << geo.nnp(r, j) << std::endl;;
+            }
+            std::cout << "\n";
+        } */
 
-    test.freeGaugeConf();
+    long r = 1;
+    int i = 1;
+
+    U1 teststaple = test.staple(r, i);
+    std::cout << teststaple << std::endl;
+
+        test.freeGaugeConf();
 
     geo.freeGeometry();
 

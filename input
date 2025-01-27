@@ -1,6 +1,6 @@
 ST_DIM 2
-T 2
-L 2
+T 3
+L 3
 seed 1234567
-start hot
+start cold
 updater hmc
