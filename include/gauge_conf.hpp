@@ -29,6 +29,7 @@ public:
 
     // in gauge_conf_meas.cpp
     std::complex<double> staple(long r, int i);
+    std::complex<double> avgPlaquette();
     U1 plaquette(long r, int i, int j);
 
     /*     // in gauge_conf_tools.cpp

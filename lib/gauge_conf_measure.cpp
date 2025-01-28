@@ -59,6 +59,7 @@ std::complex<double> configuration::staple(long r, int i)
     return staple;
 }
 
+// computes the plaquette at position r in the i-j plane
 U1 configuration::plaquette(long r, int i, int j)
 {
     //
@@ -72,4 +73,25 @@ U1 configuration::plaquette(long r, int i, int j)
     //       r   (1)
     //
     return lattice[r][i] * lattice[geo.nnp(r, i)][j] * lattice[r][j].dag() * lattice[geo.nnp(r, j)][i];
+}
+
+// leveraging translational invariance due to periodic boundary conditions,
+// computes the plaquette averaged over the entire lattice
+std::complex<double> configuration::avgPlaquette()
+{
+    long r;
+    int i, j;
+    std::complex<double> avg(0.,0.);
+
+    for (r = 0; r < geo.d_vol; r++)
+    {
+        for (i = 0; i < geo.ST_DIM; i++)
+        {
+            for (j = i + 1; j < geo.ST_DIM; j++)
+            {
+                avg += plaquette(r, i, j);
+            }
+        }
+    }
+    return geo.d_inv_vol * avg;
 }
