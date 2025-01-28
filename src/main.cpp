@@ -31,23 +31,51 @@ int main(int argc, char *argv[])
 
     configuration test(geo, sim);
 
-    /*     for (size_t r = 0; r < geo.d_vol; ++r)
+    /*     for (long r = 0; r < geo.d_vol; ++r)
         {
-            for (size_t j = 0; j < geo.ST_DIM; ++j)
+            for (int j = 0; j < geo.ST_DIM; ++j)
             {
-                // test.lattice[r][j].display();
-                std::cout << geo.nnp(r, j) << std::endl;;
+                std::cout << test.lattice[r][j].value << " " << test.lattice[geo.nnp(r, j)][j].value << std::endl;
+                std::cout << test.lattice[r][j].module() << " " << test.lattice[geo.nnp(r, j)][j].module() << std::endl;
+                std::cout << test.lattice[r][j].phase() << " " << test.lattice[geo.nnp(r, j)][j].phase() << std::endl;
+
+                std::cout << test.lattice[r][j] + test.lattice[geo.nnp(r, j)][j] << " " << test.lattice[r][j] - test.lattice[geo.nnp(r, j)][j] << std::endl;
+
+                std::cout << "####" << std::endl;
             }
             std::cout << "\n";
         } */
 
-    long r = 1;
-    int i = 1;
+    long r = 0;
+    int i = 0;
+    int j = 1;
 
-    U1 teststaple = test.staple(r, i);
-    std::cout << teststaple << std::endl;
+    /*     std::complex<double> teststaple = test.staple(r, i);
 
-        test.freeGaugeConf();
+        std::cout << teststaple << std::endl; */
+
+    U1 testplaquette = test.plaquette(r, i, j);
+
+    std::cout << testplaquette.a << std::endl;
+
+    std::complex<double> avgplaq = 0.;
+
+    for (r = 0; r < geo.d_vol; r++)
+    {
+        for (i = 0; i < geo.ST_DIM; i++)
+        {
+            for (j = i + 1; j < geo.ST_DIM; j++)
+            {
+                testplaquette = test.plaquette(r, i, j);
+                avgplaq += testplaquette;
+            }
+        }
+    }
+    //avgplaq *= geo.d_inv_vol;
+
+    std::cout << avgplaq << std::endl;
+
+    test.freeGaugeConf();
 
     geo.freeGeometry();
 

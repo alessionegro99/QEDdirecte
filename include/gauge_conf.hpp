@@ -28,7 +28,8 @@ public:
     void freeGaugeConf();
 
     // in gauge_conf_meas.cpp
-    U1 staple(long r, int i);
+    std::complex<double> staple(long r, int i);
+    U1 plaquette(long r, int i, int j);
 
     /*     // in gauge_conf_tools.cpp
         // displayer
@@ -37,5 +38,5 @@ public:
         // in gauge_conf_update.cpp
         // updater
         void HMC(size_t tot_vol, size_t n_HMC) */
-    ;
+    
 };

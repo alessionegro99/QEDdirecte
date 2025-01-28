@@ -73,9 +73,11 @@ class simulation
 public:
     const size_t seed;
     const std::string start;
+    const double beta;
 
     simulation(const parameters &p) : seed(p.getInt("seed")),
-                                      start(p.getString("start"))
+                                      start(p.getString("start")),
+                                      beta(p.getDouble("beta"))
     {
     }
 };

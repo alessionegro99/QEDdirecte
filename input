@@ -1,6 +1,7 @@
 ST_DIM 2
-T 3
-L 3
+T 2
+L 2
 seed 1234567
 start cold
 updater hmc
+beta 1.0

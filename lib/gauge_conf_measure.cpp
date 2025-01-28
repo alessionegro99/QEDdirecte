@@ -3,13 +3,13 @@
 #include "gauge_conf.hpp"
 
 // computes the staple in position r, direction i
-U1 configuration::staple(long r, int i)
+std::complex<double> configuration::staple(long r, int i)
 {
     int j, l;
     long k;
-    U1 link1, link2, link3, link12, staple;
+    U1 link1, link2, link3, tmp;
 
-    staple = U1(0.0);
+    std::complex<double> staple; // to re-do, implement better
 
     for (l = i + 1; l < i + geo.ST_DIM; l++)
     {
@@ -32,7 +32,7 @@ U1 configuration::staple(long r, int i)
         link2 = lattice[geo.nnp(r, j)][i];
         link3 = lattice[r][j];
 
-        staple = link1 * link2.inverse() * link3.inverse();
+        tmp = link1 * link2.dag() * link3.dag();
 
         //
         //       i ^
@@ -53,8 +53,23 @@ U1 configuration::staple(long r, int i)
         link2 = lattice[k][i];
         link3 = lattice[k][j];
 
-        staple = staple + link1.inverse() * link2.inverse() * link3;
+        staple = tmp + link1.dag() * link2.dag() * link3;
     }
 
     return staple;
+}
+
+U1 configuration::plaquette(long r, int i, int j)
+{
+    //
+    //       ^ j
+    //       |   (3)
+    //       +---<---+
+    //       |       |
+    //   (4) V       ^ (2)
+    //       |       |
+    //       +--->---+---> i
+    //       r   (1)
+    //
+    return lattice[r][i] * lattice[geo.nnp(r, i)][j] * lattice[r][j].dag() * lattice[geo.nnp(r, j)][i];
 }
