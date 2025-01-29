@@ -31,7 +31,7 @@ int main(int argc, char *argv[])
 
     configuration test(geo, sim);
 
-    std::cout << test.avgPlaquette() << std::endl;
+    test.hybridMonteCarlo(100);
 
     test.freeGaugeConf();
 

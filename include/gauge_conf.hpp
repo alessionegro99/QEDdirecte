@@ -28,16 +28,10 @@ public:
     void freeGaugeConf();
 
     // in gauge_conf_meas.cpp
-    std::complex<double> staple(long r, int i);
-    std::complex<double> avgPlaquette();
-    U1 plaquette(long r, int i, int j);
+    std::complex<double> staple(long r, int i); // computes the staple at point r direction i
+    std::complex<double> avgPlaquette();        // plaquette averaged over total volume
+    U1 plaquette(long r, int i, int j);         // plaquette at point r in the i-j plane
 
-    /*     // in gauge_conf_tools.cpp
-        // displayer
-        void display() const;
-
-        // in gauge_conf_update.cpp
-        // updater
-        void HMC(size_t tot_vol, size_t n_HMC) */
-    
+    // in gauge_conf_update.cpp
+    void hybridMonteCarlo(size_t n_hmc);
 };

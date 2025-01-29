@@ -3,5 +3,7 @@ T 2
 L 2
 seed 1234567
 start cold
-updater hmc
 beta 1.0
+updater hmc
+n_hmc 50
+

@@ -71,11 +71,12 @@ public:
 class simulation
 {
 public:
-    const size_t seed;
+    const long seed, n_hmc;
     const std::string start;
     const double beta;
 
     simulation(const parameters &p) : seed(p.getInt("seed")),
+                                      n_hmc(p.getInt("n_hmc")),
                                       start(p.getString("start")),
                                       beta(p.getDouble("beta"))
     {
@@ -92,9 +93,9 @@ public:
 
     std::vector<size_t> d_size; // size of the lattice
 
-    size_t d_vol;           // total volume
+    long d_vol;           // total volume
     double d_inv_vol;       // 1/(total volume)
-    size_t d_space_vol;     // spatial component of the volume
+    long d_space_vol;     // spatial component of the volume
     double d_inv_space_vol; // 1/(spatial volume)
 
     size_t **d_nnp; // d_nnp[r][i] = next neighbour (on the local lattice) in dir +i of site r
