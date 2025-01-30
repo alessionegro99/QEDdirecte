@@ -71,16 +71,22 @@ public:
 class simulation
 {
 public:
-    const long seed, n_hmc;
-    const std::string start;
+    const long n_confs, n_meas, n_save, seed, n_hmc;
+    const std::string start, updater;
     const double beta;
 
-    simulation(const parameters &p) : seed(p.getInt("seed")),
-                                      n_hmc(p.getInt("n_hmc")),
+    simulation(const parameters &p) : n_confs(p.getInt("n_confs")),
+                                      n_meas(p.getInt("n_meas")),
+                                      n_save(p.getInt("n_save")),
+                                      seed(p.getInt("seed")),
                                       start(p.getString("start")),
-                                      beta(p.getDouble("beta"))
+                                      beta(p.getDouble("beta")),
+                                      updater(p.getString("updater")),
+                                      n_hmc(p.getInt("n_hmc"))
     {
     }
+
+    void printAll();
 };
 
 // geometry of the lattice
@@ -93,9 +99,9 @@ public:
 
     std::vector<size_t> d_size; // size of the lattice
 
-    long d_vol;           // total volume
+    long d_vol;             // total volume
     double d_inv_vol;       // 1/(total volume)
-    long d_space_vol;     // spatial component of the volume
+    long d_space_vol;       // spatial component of the volume
     double d_inv_space_vol; // 1/(spatial volume)
 
     size_t **d_nnp; // d_nnp[r][i] = next neighbour (on the local lattice) in dir +i of site r

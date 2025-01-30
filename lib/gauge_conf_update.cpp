@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cmath>
 
 #include "../include/gauge_conf.hpp"
 #include "../include/random.hpp"
@@ -57,26 +58,66 @@ void freeMomenta(double **&momenta, long d_vol, size_t ST_DIM)
     delete[] momenta;
 }
 
-void configuration::hybridMonteCarlo(size_t n_hmc)
+double configuration::HMC_sweep(size_t n_hmc)
 {
     long r;
-    int j;
+    int i, j, k;
     double **momenta = nullptr;
+    double dH, weight;           // change in the Hamiltonian
+    long accepted_per_sweep = 0; // keep track of the acceptance rate
 
-    // dynamically allocating memory for the momentav variables
-    initMomenta(momenta, sim.seed, geo.d_vol, geo.ST_DIM);
+    double P; // auxiliary momentum
+    double F; // force necessary for HMC update
+    U1 Q;     // phase space coordinate (gauge link)
 
-    // 
-    double dt = 1 / double(n_hmc);
+    // step size of the integrator
+    double dt = 1.0 / double(n_hmc);
 
     for (r = 0; r < geo.d_vol; r++)
     {
         for (j = 0; j < geo.ST_DIM; j++)
         {
-            std::cout << momenta[r][j] << std::endl;
+            // dynamically allocating memory for the momenta variables
+            // momenta distribution needs to be refreshed at the start of every trajectory
+            initMomenta(momenta, sim.seed, geo.d_vol, geo.ST_DIM);
+
+            // first half step
+            Q = lattice[r][j];
+            F = force(Q, r, j);
+
+            P = momenta[r][j] - 0.5 * dt * F;
+
+            // (n-1) full steps
+            for (k = 1; k < n_hmc; k++)
+            {
+                Q *= U1(dt * P);
+                F = force(Q, r, j);
+
+                P -= dt * F;
+            }
+
+            // final step
+            Q *= U1(dt * P);
+            F = force(Q, r, j);
+
+            P -= 0.5 * dt * F;
+
+            // accept-reject step
+            dH = P - momenta[r][j] + dSGauge(Q, r, j);
+            weight = std::exp(-dH);
+
+            std::mt19937 rng = initializeRNG(sim.seed);
+            std::uniform_real_distribution<double> dis(0.0, 1.0);
+
+            if (dis(rng) < weight)
+            {
+                lattice[r][j] = Q;
+                accepted_per_sweep += 1;
+            }
+
+            // freeing memory
+            freeMomenta(momenta, geo.d_vol, geo.ST_DIM);
         }
     }
-
-    // freeing memory
-    freeMomenta(momenta, geo.d_vol, geo.ST_DIM);
+    return ((double)accepted_per_sweep/((double)Q.N_c)/((double)geo.ST_DIM))*geo.d_inv_vol;
 }

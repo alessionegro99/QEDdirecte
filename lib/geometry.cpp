@@ -47,7 +47,6 @@ int geometry::cartToLex(std::vector<int> cart_coord)
 
 void geometry::printAll()
 {
-    std::cout << "##################################" << "\n";
     std::cout << "Geometry related parameters: " << "\n";
     std::cout << "spacetime dimension = " << ST_DIM << "\n";
     std::cout << "temporal extent = " << T << "\n";
@@ -56,7 +55,6 @@ void geometry::printAll()
     std::cout << "spatial volume = " << d_space_vol << std::endl;
     std::cout << "inverse total volume = " << d_inv_vol << "\n";
     std::cout << "inverse spatial volume = " << d_inv_space_vol << std::endl;
-    std::cout << "##################################" << "\n";
 }
 
 void geometry::initGeometry()

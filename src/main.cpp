@@ -22,19 +22,35 @@ int main(int argc, char *argv[])
 
     /**************************************/
 
+    // initialize
     parameters p(filename);
-
     geometry geo(p);
     simulation sim(p);
 
+    std::cout << "/*****************************/" << "\n";
+
+    // print all geometric parameters
     geo.printAll();
 
+    std::cout << "/*****************************/" << "\n";
+
+    // print all simulation parameters
+    sim.printAll();
+    std::cout << "/*****************************/" << "\n";
+
+    // create configuration
     configuration test(geo, sim);
 
-    test.hybridMonteCarlo(100);
+    /********* UPDATE **********/
 
+    double ar = test.HMC_sweep(sim.n_hmc);
+
+    std::cout << ar << std::endl;
+
+    /***************************/
+
+    // free memory
     test.freeGaugeConf();
-
     geo.freeGeometry();
 
     return 0;

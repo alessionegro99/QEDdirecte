@@ -1,9 +1,12 @@
-ST_DIM 2
-T 2
-L 2
+ST_DIM 3
+T 16
+L 3
 seed 1234567
 start cold
-beta 1.0
+beta 1.7
+n_confs 100
+n_meas 10
+n_save 10
 updater hmc
 n_hmc 50
 
